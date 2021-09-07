@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">默认数据</div>
+    <script>
+
+        // 模拟Vue实例
+        const vm = {}
+        // 模拟Vue中的data选项
+        const data = {
+            message: 'Hello World',
+            count: 1
+        }
+        const ProxyData = () => {
+            Object.keys(data).forEach((key) => {
+                Object.defineProperty(vm, key, {
+                    enumerable: true,
+                    configurable: true,
+                    get () {
+                        return data[key]
+                    },
+
+                    set (newValue) {
+                        if (newValue === data[key]) {
+                            return newValue
+                        }
+                        data[key] = newValue
+                        document.querySelector('#app').textContent = newValue
+                    }
+                })
+            })
+        }
+        ProxyData()
+        vm.message = 2
+    </script>
+</body>
+</html>
