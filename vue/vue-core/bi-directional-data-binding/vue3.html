@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app">默认数据</div>
+    <script>
+
+        // 模拟Vue中的data选项
+        const data = {
+            message: 'Hello World',
+            count: 1
+        }
+
+        // 模拟Vue实例
+        // Proxy对data对象进行代理 当对vm 的数据进行操作的时候会执行官
+        const vm = new Proxy(data, {
+          // 参数为目标对象以及访问的属性值
+          get (target, key) {
+            return target[key]
+          },
+          set (target, key, newValue) {
+            if (target[key] === newValue) {
+              return
+            }
+            target[key] = newValue
+            document.querySelector('#app').textContent = newValue
+          }
+        })
+    </script>
+</body>
+</html>
