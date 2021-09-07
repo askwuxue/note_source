@@ -11,11 +11,12 @@ export default class VueRouter {
     _Vue = Vue
     // 3. 把创建Vue实例时传入的router对象注入到Vue实例
     // TODO 混入 所有Vue实例以及组件上都会被混入
-    _Vue.mixin ({
+    _Vue.mixin({
       beforeCreate () {
         // 只有当前Vue实例上具有$options,才在Vue原型上挂载$router对象
         if (this.$options.router) {
           _Vue.prototype.$router = this.$options.router
+          // 进行初始化
           this.$options.router.init()
         }
       }
@@ -56,7 +57,7 @@ export default class VueRouter {
       methods: {
         clickHandler (e) {
           // 改变浏览器的地址栏，会被浏览器的历史记住 不刷新页面，不向服务器发送请求
-          history.pushState({}, '', this.to)
+          window.history.pushState({}, '', this.to)
           // router-link是Vue实例 都可以访问Vue.prototype 注册了$router对象
           this.$router.data.current = this.to
           // 阻止默认事件行为
@@ -66,7 +67,7 @@ export default class VueRouter {
       // template: `<a :href="to"><slot></slot></a>`
       render (h) {
         // h 函数创建虚拟DOM 第一个参数标签名 第二个参数是是参数对象， 第三个参数是文本内容
-        return h ('a', {
+        return h('a', {
           attrs: {
             'href': this.to
           },
@@ -80,10 +81,10 @@ export default class VueRouter {
     const self = this
     // 创建router-view
     Vue.component('router-view', {
-      render(h) {
+      render (h) {
         // 获取路由组件
         const component = self.routeMap[self.data.current]
-        return h (component)
+        return h(component)
       }
     })
   }
