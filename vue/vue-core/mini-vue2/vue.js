@@ -13,7 +13,7 @@ class Vue {
     new Compiler(this)
   }
 
-  // 注册数据的get和set方法
+  // 注册数据的getter和setter方法
   _ProxyData (data) {
     Object.keys(data).forEach(key => {
       Object.defineProperty(this, key, {
@@ -26,7 +26,7 @@ class Vue {
           if (newValue === data[key]) {
             return
           }
-          return newValue
+          data[key] = newValue
         }
       })
     })
