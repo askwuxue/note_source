@@ -1572,38 +1572,38 @@ var _jsx = require("./jsx");
 
 var _snabbdom = require("snabbdom");
 
-var patch = (0, _snabbdom.init)([_snabbdom.classModule, _snabbdom.styleModule, _snabbdom.eventListenersModule]); // let vNode = h('div#container.cls', 'Hello World')
-// let vNode = h('div#container.cls', 'Hello World')
-
-var vNode = (0, _snabbdom.h)('div#container.cls', {}, [(0, _snabbdom.h)('p', 'this is old contents')]);
-var dom = document.querySelector('#app');
-var oldDom = patch(dom, vNode);
-vNode = (0, _snabbdom.h)('div#container.xxx', 'Hello snabbdom'); // patch(oldDom, vNode)
-
-setTimeout(function () {
-  vNode = (0, _snabbdom.h)('div#container.father', {
-    style: {
-      color: '#ccc'
+var patch = (0, _snabbdom.init)([_snabbdom.classModule, _snabbdom.styleModule, _snabbdom.eventListenersModule]);
+var vNode = (0, _snabbdom.h)('div#container.cls', {
+  hook: {
+    init: function init(vnode) {
+      console.log('vnode: ', vnode);
     },
-    on: {
-      click: handleClickDiv
+    create: function create(emptyNode, vnode) {
+      console.log('emptyNode: ', emptyNode);
+      console.log('vnode: ', vnode);
     }
-  }, [(0, _snabbdom.h)('h1', 'this is h1'), (0, _snabbdom.h)('p', {
-    on: {
-      click: handleClick
-    }
-  }, 'this is snabbdom contents')]);
-  patch(oldDom, vNode);
-}, 2000);
+  }
+}, 'Hello World'); // let vNode = h('div#container.cls', {}, [
+//   h('p', 'this is old contents')
+// ])
 
-function handleClick() {
-  console.log('click');
-} // 依旧会有事件冒泡
-
-
-function handleClickDiv() {
-  console.log('click div');
-}
+var dom = document.querySelector('#app');
+var oldDom = patch(dom, vNode); // vNode = h('div#container.xxx', 'Hello snabbdom')
+// patch(oldDom, vNode)
+// setTimeout(() => {
+//   vNode = h('div#container.father', { style: { color: '#ccc' }, on: { click: handleClickDiv } }, [
+//     h('h1', 'this is h1'),
+//     h('p', { on: { click: handleClick } }, 'this is snabbdom contents')
+//   ])
+//   patch(oldDom, vNode)
+// }, 2000)
+// function handleClick () {
+//   console.log('click')
+// }
+// // 依旧会有事件冒泡
+// function handleClickDiv () {
+//   console.log('click div')
+// }
 },{"snabbdom":"node_modules/snabbdom/build/index.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -1632,7 +1632,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "6869" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "1332" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
