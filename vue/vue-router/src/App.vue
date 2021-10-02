@@ -3,6 +3,8 @@
     <router-link to="/index">Go to Index</router-link> |
     <router-link to="/about">Go to About</router-link>
     <div class="main">
+      <!-- 路由出口 -->
+      <!-- 利用vue响应式: current -->
       <router-view></router-view>
     </div>
   </div>

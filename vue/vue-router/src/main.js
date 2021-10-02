@@ -16,7 +16,9 @@ const routes = [
     component: About
   }
 ]
-
+// VueRouter 插件
+// 1. 实现并声明了两个组件，router-view router-link
+// 2. install
 Vue.use(VueRouter)
 
 const router = new VueRouter({ routes })
