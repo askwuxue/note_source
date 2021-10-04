@@ -1,19 +1,32 @@
 import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from './VueRouter/index'
+// import VueRouter from 'vue-router'
 import Index from '@/components/index'
 import About from '@/components/about'
+import That from '@/components/that'
 
 Vue.config.productionTip = false
 
 const routes = [
   {
-    path: '/index',
-    component: Index
+    path: '/',
+    component: Index,
+    children: [
+      {
+        path: '/index',
+        component: Index,
+      },
+      {
+        path: '/that',
+        // name: 'that',
+        component: That,
+      }
+    ]
   },
   {
     path: '/about',
-    component: About
+    component: About,
   }
 ]
 // VueRouter 插件
