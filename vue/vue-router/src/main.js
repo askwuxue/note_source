@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-import VueRouter from './VueRouter/index'
-// import VueRouter from 'vue-router'
+// import VueRouter from './VueRouter/index'
+import VueRouter from 'vue-router'
 import Index from '@/components/index'
 import About from '@/components/about'
 import That from '@/components/that'
@@ -33,7 +33,6 @@ const routes = [
 // 1. 实现并声明了两个组件，router-view router-link
 // 2. install
 Vue.use(VueRouter)
-
 const router = new VueRouter({ routes })
 
 new Vue({
