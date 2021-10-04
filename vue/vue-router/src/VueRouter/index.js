@@ -32,20 +32,24 @@ export default class VueRouter {
     this.data = _Vue.observable({
       current: '/'
     })
+    // _Vue.utils.defineReactive(this, 'matched', [])
   }
 
   // 初始化操作
   init () {
-    this.createRouteMap()
+    this.createRouteMap(this.options.routes)
     this.initComponent(_Vue)
     this.intiEvent()
   }
 
   // 将传递给Vue-Router对象的options对象转换成routeMap
-  createRouteMap () {
-    this.options.routes.forEach(route => {
+  createRouteMap (routes) {
+    routes.forEach(route => {
+      if (route.children && Array.isArray(route.children)) {
+        this.createRouteMap(route.children)
+      }
       this.routeMap[route.path] = route.component
-    })
+    });
   }
 
   // 创建router-link
@@ -82,8 +86,21 @@ export default class VueRouter {
     // 创建router-view
     Vue.component('router-view', {
       render (h) {
+        // this.$vnode.data.routerView = true
+        // let depth = 0
+        // let parent = this.$parent
+        // while (parent) {
+        //   // const routerView = parent?.$vnode?.data?.routerView
+        //   const vnodeData = parent.$vnode ? parent.$vnode.data : {}
+        //   if (vnodeData.routerView) {
+        //     depth++
+        //   }
+        //   parent = parent.$parent
+        // }
         // 获取路由组件
         const component = self.routeMap[self.data.current]
+        console.log('self.data.current: ', self.data.current)
+        console.log('component: ', component)
         return h(component)
       }
     })
