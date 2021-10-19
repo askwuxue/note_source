@@ -1,31 +1,26 @@
 <template>
-  <div class="home">
-    {{ number }}
-    <count @change="changeNum"></count>
+  <div>
+    <input type="text" v-model.number="num" @input="transParaToFather" />
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from "vue";
-import Count from "./Count.vue";
 
 export default defineComponent({
   name: "Home",
-  components: {
-    Count,
-  },
-  data(): unknown {
+  components: {},
+  data() {
     return {
       number: 1,
     };
   },
   methods: {
-    changeNum(num: number) {
-      console.log("num", num);
+    changeNum(num) {
+      console.log("num: ", num);
       // this.number = num;
     },
   },
 });
 </script>
-
 <style scoped></style>
