@@ -1,24 +1,16 @@
 <template>
   <div>
-    <div id="nav">
-      <button @click="provideMitt">点击</button>
-      <mitt-content></mitt-content>
-    </div>
+    <ref-demo></ref-demo>
   </div>
 </template>
 
 <script>
-import MittContent from "./views/mitt/MittContent.vue";
-import emitter from "./views/mitt/emitter";
+import RefDemo from '../examples/RefDemo.vue'
 import { defineComponent } from "vue";
 
 const App = defineComponent({
-  components: { MittContent },
+  components: { RefDemo },
   methods: {
-    provideMitt() {
-      console.log("111");
-      emitter.emit("foo", { a: "b" });
-    },
   },
 });
 export default App;
