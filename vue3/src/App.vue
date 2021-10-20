@@ -1,12 +1,28 @@
 <template>
   <div>
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <button @click="provideMitt">点击</button>
+      <mitt-content></mitt-content>
     </div>
-    <router-view />
   </div>
 </template>
+
+<script>
+import MittContent from "./views/mitt/MittContent.vue";
+import emitter from "./views/mitt/emitter";
+import { defineComponent } from "vue";
+
+const App = defineComponent({
+  components: { MittContent },
+  methods: {
+    provideMitt() {
+      console.log("111");
+      emitter.emit("foo", { a: "b" });
+    },
+  },
+});
+export default App;
+</script>
 
 <style>
 #app {
