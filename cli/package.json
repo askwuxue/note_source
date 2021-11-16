@@ -1,7 +1,0 @@
-{
-  "name": "cli-demo",
-  "version": "1.0.0",
-  "bin": "cli.js",
-  "main": "index.js",
-  "license": "MIT"
-}
