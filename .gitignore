@@ -1,3 +1,6 @@
-node_modules
+node_modules/		# 忽略 node_modules 文件夹及其下所有文件
+/node_modules/		# 忽略根目录下的 node_modules 文件夹及其下所有文件
+**/node_modules/	# 忽略任意目录下的 node_modules 文件夹及其下所有文件
 .idea
 **/*cache/
+node_modules
