@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="emit-example-simple">
+    <welcome-button v-on:welcome="sayHi" style="border: 0ch;"></welcome-button>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script>
+    // 全局组件
+    Vue.component('welcome-button', {
+      template: `
+        <button v-on:click="$emit('welcome', 'params')">
+          Click me to be welcomed
+        </button>
+      `,
+      mounted() {
+        console.log('this.$parent: ', this.$parent);
+        console.log('vm.$attrs', this.$attrs)
+      },
+    })
+    let vm = new Vue({
+      el: '#emit-example-simple',
+      methods: {
+        sayHi: function (value) {
+          console.log('value: ', value);
+          console.log('Hi!')
+        }
+      }
+    })
+
+  </script>
+</body>
+</html>
