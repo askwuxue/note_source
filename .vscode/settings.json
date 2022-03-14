@@ -190,5 +190,6 @@
     "plist"
   ],
   "workbench.activityBar.visible": true,
-  "workbench.colorCustomizations": {}
+  "workbench.colorCustomizations": {},
+  "liveServer.settings.port": 5501
 }
