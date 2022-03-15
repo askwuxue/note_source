@@ -32,7 +32,6 @@ class Observer {
       },
       // 监听对$data对象的改变
       set(newValue) {
-        console.log("observer set");
         if (newValue === val) {
           return;
         }

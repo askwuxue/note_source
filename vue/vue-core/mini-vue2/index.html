@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <div id="app">
-    <div>{{count}}</div>
-    <div>{{message}}</div>
-    <p>v-text: </p>
-    <div v-text="obj"></div>
-    <!-- TODO 有一个bug 差值表达式有空格无法正常渲染，data发生变化时，全部覆盖了 -->
-    <p>v-model: {{input}}</p>
-    <input type="text" v-model="input">
-  </div>
-  <script src="./dep.js"></script>
-  <script src="./watch.js"></script>
-  <script src="./vue.js"></script>
-  <script src="./observer.js"></script>
-  <script src="./compiler.js"></script>
-  <script>
-    const vm = new Vue({
-      el: '#app',
-      data: {
-        count: 1,
-        message: 'hello',
-        obj: '<p>hello</p>',
-        input: '222'
-      }
-    })
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <div>{{count}}</div>
+      <div>{{message}}</div>
+      <p>v-text:</p>
+      <div v-text="obj"></div>
+      <!-- TODO 有一个bug 差值表达式有空格无法正常渲染，data发生变化时，全部覆盖了 -->
+      <p>v-model: {{ input }}</p>
+      <input type="text" v-model="input" />
+    </div>
+    <script src="./dep.js"></script>
+    <script src="./watch.js"></script>
+    <script src="./vue.js"></script>
+    <script src="./observer.js"></script>
+    <script src="./compiler.js"></script>
+    <script>
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          count: 1,
+          message: "hello",
+          obj: "<p>hello</p>",
+          input: "222",
+        },
+      });
+    </script>
+  </body>
 </html>
