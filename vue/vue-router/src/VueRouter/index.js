@@ -39,7 +39,7 @@ export default class VueRouter {
   init() {
     this.createRouteMap(this.options.routes);
     this.initComponent(_Vue);
-    // this.intiEvent();
+    this.intiEvent();
   }
 
   // 将传递给Vue-Router对象的options对象转换成routeMap
@@ -103,10 +103,6 @@ export default class VueRouter {
         // }
         // 获取路由组件
         const component = self.routeMap[self.data.current];
-        // console.log("self.routeMap: ", self.routeMap);
-        // console.log("self.data.current: ", self.data.current);
-        // console.log("component: ", component);
-        // console.log("h(component): ", h(component));
         return h(component);
       },
     });
