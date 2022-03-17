@@ -1,8 +1,9 @@
 <template>
   <div id="app">
-    <router-link to="/index">Go to Index</router-link> |
-    <router-link to="/about">Go to About</router-link> |
-    <router-link to="/that">Go to That</router-link>
+    <!-- 实现了hash模式的Vue-Router -->
+    <router-link to="index">Go to Index</router-link> |
+    <router-link to="about">Go to About</router-link> |
+    <router-link to="that">Go to That</router-link>
     <div class="main">
       <!-- 路由出口 -->
       <!-- 利用vue响应式: current -->

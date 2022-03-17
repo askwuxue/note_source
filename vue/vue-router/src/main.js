@@ -1,6 +1,7 @@
 import Vue from "vue";
 import App from "./App.vue";
-import VueRouter from "./VueRouter/index";
+// import VueRouter from "./VueRouter/index";
+import VueRouter from "./VueRouter/indexHash";
 // import VueRouter from "vue-router";
 import Index from "@/components/index";
 import About from "@/components/about";
@@ -14,18 +15,18 @@ const routes = [
     component: Index,
     children: [
       {
-        path: "/index",
+        path: "index",
         component: Index,
       },
       {
-        path: "/that",
+        path: "that",
         // name: 'that',
         component: That,
       },
     ],
   },
   {
-    path: "/about",
+    path: "about",
     component: About,
   },
 ];
