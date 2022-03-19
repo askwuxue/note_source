@@ -12,6 +12,8 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": true
   },
+  // 指示ESLint根据package.json、.eslintignore和.eslintrc*文件的位置推断工作目录。这可能在很多情况下有效，但也可能导致意想不到的结果。
+  "eslint.workingDirectories": [{ "mode": "auto" }],
   "editor.snippetSuggestions": "top", // 代码提示。许多插件都有代码提示，代码缩写提示优先显示在最上方
   // 粘贴后的内容, 是否自动格式化
   "editor.formatOnPaste": false,
