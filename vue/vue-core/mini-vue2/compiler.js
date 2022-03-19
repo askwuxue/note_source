@@ -72,7 +72,6 @@ class Compiler {
   // 编译文本节点，处理插值表达式
   compileText(node) {
     const reg = /\{\{(.*?)\}\}/g;
-    reg.exec(node.textContent);
     let keyName = null;
     node.textContent = node.textContent.replace(reg, (match, key) => {
       keyName = key;
