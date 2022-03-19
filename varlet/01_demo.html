@@ -17,7 +17,7 @@
       const App = Vue.use(Varlet);
       console.log("App: ", App);
       const vm = new Vue({
-        render: h => h(App),
+        template: `<var-button type="info">按钮</var-button>`,
       }).$mount("#app");
     </script>
   </body>
