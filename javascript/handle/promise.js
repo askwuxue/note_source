@@ -2,22 +2,23 @@ const PENDING = "pending";
 const FULFILLED = "fulfilled";
 const REJECTED = "rejected";
 
-const resolvePromise = (promise2, nextValue, resolve, reject) => {
+const resolvePromise = (promise2, result, resolve, reject) => {
   // 自己等待自己完成是错误的实现，用一个类型错误，结束掉 promise  Promise/A+ 2.3.1
-  if (promise2 === nextValue) {
-    return reject(new TypeError("Chaining cycle detected for promise #<Promise>"));
+  if (promise2 === result) {
+    let reason = new TypeError("Chaining cycle detected for promise #<Promise>");
+    return reject(reason);
   }
   // Promise/A+ 2.3.3.3.3 只能调用一次
   let called;
   // 后续的条件要严格判断 保证代码能和别的库一起使用
-  if ((typeof nextValue === "object" && nextValue != null) || typeof nextValue === "function") {
+  if ((typeof result === "object" && result != null) || typeof result === "function") {
     try {
       // 为了判断 resolve 过的就不用再 reject 了（比如 reject 和 resolve 同时调用的时候）  Promise/A+ 2.3.3.1
-      let then = nextValue.then;
+      let then = result.then;
       if (typeof then === "function") {
-        // 不要写成 nextValue.then，直接 then.call 就可以了 因为 nextValue.then 会再次取值，Object.defineProperty  Promise/A+ 2.3.3.3
+        // 不要写成 result.then，直接 then.call 就可以了 因为 result.then 会再次取值，Object.defineProperty  Promise/A+ 2.3.3.3
         then.call(
-          nextValue,
+          result,
           y => {
             // 根据 promise 的状态决定是成功还是失败
             if (called) return;
@@ -33,8 +34,8 @@ const resolvePromise = (promise2, nextValue, resolve, reject) => {
           }
         );
       } else {
-        // 如果 nextValue.then 是个普通值就直接返回 resolve 作为结果  Promise/A+ 2.3.3.4
-        resolve(nextValue);
+        // 如果 result.then 是个普通值就直接返回 resolve 作为结果  Promise/A+ 2.3.3.4
+        resolve(result);
       }
     } catch (e) {
       // Promise/A+ 2.3.3.2
@@ -43,8 +44,8 @@ const resolvePromise = (promise2, nextValue, resolve, reject) => {
       reject(e);
     }
   } else {
-    // 如果 nextValue 是个普通值就直接返回 resolve 作为结果  Promise/A+ 2.3.4
-    resolve(nextValue);
+    // 如果 result 是个普通值就直接返回 resolve 作为结果  Promise/A+ 2.3.4
+    resolve(result);
   }
 };
 class Promise {
@@ -94,9 +95,9 @@ class Promise {
         //Promise/A+ 2.2.4 --- setTimeout
         setTimeout(() => {
           try {
-            let nextValue = onFulfilled(this.value);
-            // nextValue可能是一个promise
-            resolvePromise(promise2, nextValue, resolve, reject);
+            let result = onFulfilled(this.value);
+            // result可能是一个promise
+            resolvePromise(promise2, result, resolve, reject);
           } catch (e) {
             reject(e);
           }
@@ -107,8 +108,8 @@ class Promise {
         //Promise/A+ 2.2.3
         setTimeout(() => {
           try {
-            let nextValue = onRejected(this.reason);
-            resolvePromise(promise2, nextValue, resolve, reject);
+            let result = onRejected(this.reason);
+            resolvePromise(promise2, result, resolve, reject);
           } catch (e) {
             reject(e);
           }
@@ -119,8 +120,8 @@ class Promise {
         this.onResolvedCallbacks.push(() => {
           setTimeout(() => {
             try {
-              let nextValue = onFulfilled(this.value);
-              resolvePromise(promise2, nextValue, resolve, reject);
+              let result = onFulfilled(this.value);
+              resolvePromise(promise2, result, resolve, reject);
             } catch (e) {
               reject(e);
             }
@@ -130,8 +131,8 @@ class Promise {
         this.onRejectedCallbacks.push(() => {
           setTimeout(() => {
             try {
-              let nextValue = onRejected(this.reason);
-              resolvePromise(promise2, nextValue, resolve, reject);
+              let result = onRejected(this.reason);
+              resolvePromise(promise2, result, resolve, reject);
             } catch (e) {
               reject(e);
             }
