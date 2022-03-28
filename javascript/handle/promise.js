@@ -199,6 +199,7 @@ Promise.race = function (promiseArr) {
   });
 };
 
+// 所有promise的状态都发生变化后才返回，并且返回的promise状态总是fulfilled
 Promise.allSettled = function (promiseArr) {
   let result = [];
   return new Promise((resolve, reject) => {
@@ -227,6 +228,7 @@ Promise.allSettled = function (promiseArr) {
   });
 };
 
+// 只要参数实例有一个变成fulfilled状态，包装实例就会变成fulfilled状态；如果所有参数实例都变成rejected状态，包装实例就会变成rejected状态。
 Promise.any = function (promiseArr) {
   let index = 0;
   return new Promise((resolve, reject) => {
@@ -239,7 +241,8 @@ Promise.any = function (promiseArr) {
         err => {
           index++;
           if (index === promiseArr.length) {
-            reject(new AggregateError("All promises were rejected"));
+            let reason = new AggregateError("All promises were rejected");
+            reject(reason);
           }
         }
       );
