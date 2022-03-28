@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div {
+        width: 600px;
+        height: 500px;
+        background-color: aqua;
+      }
+    </style>
+  </head>
+  <body>
+    <div></div>
+    <script>
+      function throttle(func, wait) {
+        let _this, args;
+        let previous = 0;
+
+        return function () {
+          let now = +new Date();
+          _this = this;
+          args = arguments;
+          if (now - previous >= wait) {
+            func.apply(_this, args);
+            previous = now;
+          }
+        };
+      }
+
+      const divContext = document.querySelector("div");
+      const getUserAction = () => {
+        console.log("防抖执行了");
+      };
+      const setUseAction = throttle(getUserAction, 1000, true);
+      // 使用防抖
+      divContext.addEventListener("mousemove", setUseAction);
+    </script>
+  </body>
+</html>

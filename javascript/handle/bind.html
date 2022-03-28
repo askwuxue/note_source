@@ -8,45 +8,47 @@
   </head>
   <body>
     <script>
-      // Function.prototype.myBind = function (context = window, ...args) {
-      //   const that = this;
-      //   return function () {
-      //     that.apply(context, [...args, ...arguments]);
-      //   };
-      // };
-
-      // let bound = fn.myBind(a, [1, 2, 3])([4, 5, 6]);
-      // let res = bound(1, 2);
-      // console.log("bound: ", bound);
-
       Function.prototype.bind2 = function (context, ...args) {
         const self = this;
-        const fNOP = function () {};
         const fbound = function () {
+          // 判断是谁调用bind后的函数，如果是直接调用，则修正为bind的第一个参数
+          // 如果是new 的方式调用，则调用的对象为fn.bind()中的fn
           self.apply(this instanceof self ? this : context, [...args, ...arguments]);
         };
+        // 修正bind后的函数的原型
+        const fNOP = function () {};
         fNOP.prototype = this.prototype;
         fbound.prototype = new fNOP();
         return fbound;
       };
-
-      // var a = "123";
-
       // const obj = {
       //   a: "123",
+      //   name: "wuxue2",
+      //   age: "18",
       // };
 
+      // 1. 使用普通方式调用
       // function fn(name, age) {
-      //   this.name = name;
-      //   this.age = age;
-      //   console.log("name: ", name);
-      //   console.log("age: ", age);
+      //   // this.name = name;
+      //   // this.age = age;
+      //   // console.log("name: ", name);
+      //   // console.log("age: ", age);
+      //   console.log("this.name: ", this.name);
+      //   console.log("this.age: ", this.age);
       // }
+      // let bound = fn.bind2(obj);
+      // let c = bound();
 
-      // let bound = fn.bind2(obj, "wuxue");
-      // console.log("bound: ", bound);
-      // let b = new bound(25);
-      // console.log("b: ", b);
+      // 2. 使用new的方式调用
+      function fn(name, age) {
+        this.name = name;
+        this.age = age;
+        console.log("name: ", name);
+        console.log("age: ", age);
+      }
+      let bound = fn.bind2(null, "wuxue");
+      let b = new bound(25);
+      console.log("bound.prototype: ", b instanceof fn);
     </script>
   </body>
 </html>
