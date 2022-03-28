@@ -2,6 +2,51 @@ const PENDING = "pending";
 const FULFILLED = "fulfilled";
 const REJECTED = "rejected";
 
+const resolvePromise = (promise2, nextValue, resolve, reject) => {
+  // 自己等待自己完成是错误的实现，用一个类型错误，结束掉 promise  Promise/A+ 2.3.1
+  if (promise2 === nextValue) {
+    return reject(new TypeError("Chaining cycle detected for promise #<Promise>"));
+  }
+  // Promise/A+ 2.3.3.3.3 只能调用一次
+  let called;
+  // 后续的条件要严格判断 保证代码能和别的库一起使用
+  if ((typeof nextValue === "object" && nextValue != null) || typeof nextValue === "function") {
+    try {
+      // 为了判断 resolve 过的就不用再 reject 了（比如 reject 和 resolve 同时调用的时候）  Promise/A+ 2.3.3.1
+      let then = nextValue.then;
+      if (typeof then === "function") {
+        // 不要写成 nextValue.then，直接 then.call 就可以了 因为 nextValue.then 会再次取值，Object.defineProperty  Promise/A+ 2.3.3.3
+        then.call(
+          nextValue,
+          y => {
+            // 根据 promise 的状态决定是成功还是失败
+            if (called) return;
+            called = true;
+            // 递归解析的过程（因为可能 promise 中还有 promise） Promise/A+ 2.3.3.3.1
+            resolvePromise(promise2, y, resolve, reject);
+          },
+          r => {
+            // 只要失败就失败 Promise/A+ 2.3.3.3.2
+            if (called) return;
+            called = true;
+            reject(r);
+          }
+        );
+      } else {
+        // 如果 nextValue.then 是个普通值就直接返回 resolve 作为结果  Promise/A+ 2.3.3.4
+        resolve(nextValue);
+      }
+    } catch (e) {
+      // Promise/A+ 2.3.3.2
+      if (called) return;
+      called = true;
+      reject(e);
+    }
+  } else {
+    // 如果 nextValue 是个普通值就直接返回 resolve 作为结果  Promise/A+ 2.3.4
+    resolve(nextValue);
+  }
+};
 class Promise {
   constructor(executor) {
     this.status = PENDING;
@@ -34,7 +79,7 @@ class Promise {
   }
 
   then(onFulfilled, onRejected) {
-    // 解决 onFufilled，onRejected 没有传值的问题
+    // 解决 onFulfilled，onRejected 没有传值的问题
     onFulfilled = typeof onFulfilled === "function" ? onFulfilled : v => v;
     // 因为错误的值要让后面访问到，所以这里也要抛出错误，不然会在之后 then 的 resolve 中捕获
     onRejected =
@@ -50,7 +95,7 @@ class Promise {
         setTimeout(() => {
           try {
             let nextValue = onFulfilled(this.value);
-            // nextValue可能是一个proimise
+            // nextValue可能是一个promise
             resolvePromise(promise2, nextValue, resolve, reject);
           } catch (e) {
             reject(e);
@@ -62,8 +107,8 @@ class Promise {
         //Promise/A+ 2.2.3
         setTimeout(() => {
           try {
-            let x = onRejected(this.reason);
-            resolvePromise(promise2, x, resolve, reject);
+            let nextValue = onRejected(this.reason);
+            resolvePromise(promise2, nextValue, resolve, reject);
           } catch (e) {
             reject(e);
           }
@@ -129,52 +174,6 @@ class Promise {
     });
   }
 }
-
-const resolvePromise = (promise2, nextValue, resolve, reject) => {
-  // 自己等待自己完成是错误的实现，用一个类型错误，结束掉 promise  Promise/A+ 2.3.1
-  if (promise2 === nextValue) {
-    return reject(new TypeError("Chaining cycle detected for promise #<Promise>"));
-  }
-  // Promise/A+ 2.3.3.3.3 只能调用一次
-  let called;
-  // 后续的条件要严格判断 保证代码能和别的库一起使用
-  if ((typeof nextValue === "object" && nextValue != null) || typeof nextValue === "function") {
-    try {
-      // 为了判断 resolve 过的就不用再 reject 了（比如 reject 和 resolve 同时调用的时候）  Promise/A+ 2.3.3.1
-      let then = nextValue.then;
-      if (typeof then === "function") {
-        // 不要写成 nextValue.then，直接 then.call 就可以了 因为 nextValue.then 会再次取值，Object.defineProperty  Promise/A+ 2.3.3.3
-        then.call(
-          nextValue,
-          y => {
-            // 根据 promise 的状态决定是成功还是失败
-            if (called) return;
-            called = true;
-            // 递归解析的过程（因为可能 promise 中还有 promise） Promise/A+ 2.3.3.3.1
-            resolvePromise(promise2, y, resolve, reject);
-          },
-          r => {
-            // 只要失败就失败 Promise/A+ 2.3.3.3.2
-            if (called) return;
-            called = true;
-            reject(r);
-          }
-        );
-      } else {
-        // 如果 nextValue.then 是个普通值就直接返回 resolve 作为结果  Promise/A+ 2.3.3.4
-        resolve(nextValue);
-      }
-    } catch (e) {
-      // Promise/A+ 2.3.3.2
-      if (called) return;
-      called = true;
-      reject(e);
-    }
-  } else {
-    // 如果 nextValue 是个普通值就直接返回 resolve 作为结果  Promise/A+ 2.3.4
-    resolve(nextValue);
-  }
-};
 
 Promise.resolve = function (value) {
   // 如果是 Promsie，则直接输出它
