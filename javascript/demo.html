@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <a href="">1</a>
+      <a href="">2</a>
+      <a href="">3</a>
+      <a href="">4</a>
+      <a href="">5</a>
+    </div>
+    <script>
+      const div = document.querySelector("div");
+      const aList = [...document.querySelectorAll("a")];
+      let temp = "";
+      div.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const index = aList.findIndex(item => item === e.target);
+        console.log("index: ", index);
+        console.log(e.target);
+        console.log(e.currentTarget);
+      });
+      // aList[0].onclick = function (e) {
+      //   console.log("e: ", e);
+      //   return false;
+      // };
+      // setInterval(() => {
+      //   console.log(temp);
+      // }, 1000);
+    </script>
+  </body>
+</html>
