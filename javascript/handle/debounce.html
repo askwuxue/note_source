@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div {
+        width: 600px;
+        height: 500px;
+        background-color: aqua;
+      }
+    </style>
+  </head>
+  <body>
+    <div></div>
+    <button>取消防抖</button>
+    <script>
+      function debounce(func, wait = 2000, immediate = false) {
+        let timeout, result;
+        const debounced = function () {
+          let _this = this;
+          let args = arguments;
+
+          // 存在执行中的定时器，clean
+          if (timeout) {
+            clearTimeout(timeout);
+          }
+          // 立即执行
+          if (immediate) {
+            let callNow = !timeout;
+            timeout = setTimeout(function () {
+              timeout = null;
+            }, wait);
+            // 立即执行
+            if (callNow) {
+              result = func.apply(_this, args);
+            }
+          } else {
+            timeout = setTimeout(function () {
+              func.apply(_this, args);
+            }, wait);
+          }
+          return result;
+        };
+
+        debounced.cancel = function () {
+          clearTimeout(timeout);
+          timeout = null;
+        };
+
+        return debounced;
+      }
+
+      function getUserAction() {
+        console.log("触发了");
+      }
+
+      const divContext = document.querySelector("div");
+      const cancelBtn = document.querySelector("button");
+      const setUseAction = debounce(getUserAction, 5000, true);
+      // 使用防抖
+      divContext.addEventListener("mousemove", setUseAction);
+      // 取消防抖
+      cancelBtn.addEventListener("click", function cancelDebounce() {
+        setUseAction.cancel();
+        console.log("setUseAction: ");
+      });
+
+      // 取消防抖
+      setUseAction.cancel();
+    </script>
+  </body>
+</html>
