@@ -12,7 +12,6 @@ const getType = data => {
 
 function jsonStringify(data) {
   let dataType = getType(data);
-  console.log("dataType: ", dataType);
 
   // string 类型
   if (dataType === "string") {

@@ -1,4 +1,4 @@
-Array.prototype.forEach2 = function (callback, thisArg) {
+Array.prototype.forEach2 = function (callback, context) {
   if (this == null) {
     throw new TypeError("this is null or not defined");
   }
@@ -11,7 +11,7 @@ Array.prototype.forEach2 = function (callback, thisArg) {
   let k = 0;
   while (k < len) {
     if (k in O) {
-      callback.call(thisArg, O[k], k, O);
+      callback.call(context, O[k], k, O);
     }
     k++;
   }

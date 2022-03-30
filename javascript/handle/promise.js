@@ -177,7 +177,7 @@ class Promise {
 }
 
 Promise.resolve = function (value) {
-  // 如果是 Promsie，则直接输出它
+  // 如果是 Promise，则直接输出它
   if (value instanceof Promise) {
     return value;
   }
@@ -203,7 +203,7 @@ Promise.race = function (promiseArr) {
 Promise.allSettled = function (promiseArr) {
   let result = [];
   return new Promise((resolve, reject) => {
-    promiseArr.forEach((p, i) => {
+    promiseArr.forEach((p, index) => {
       Promise.resolve(p).then(
         val => {
           result.push({

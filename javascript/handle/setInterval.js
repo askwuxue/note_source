@@ -1,8 +1,8 @@
-function mySettimeout(fn, t) {
+function mySettimeout(fn, delay) {
   let timer = null;
   function interval() {
     fn();
-    timer = setTimeout(interval, t);
+    timer = setTimeout(interval, delay);
   }
   interval();
   return {
@@ -14,6 +14,6 @@ function mySettimeout(fn, t) {
 // let a=mySettimeout(()=>{
 //   console.log(111);
 // },1000)
-// let b=mySettimeout(() => {
-//   console.log(222)
-// }, 1000)
+let b = mySettimeout(() => {
+  console.log(222);
+}, 1000);
