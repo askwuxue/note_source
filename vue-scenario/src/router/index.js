@@ -19,6 +19,15 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
   },
+  {
+    path: '/virtual-list',
+    name: 'virtualList',
+    component: () => {
+      return import(
+        /* webpackChunkName: "virtualList" */ '../components/perf/VirtualList.vue'
+      )
+    },
+  },
 ]
 
 const router = new VueRouter({

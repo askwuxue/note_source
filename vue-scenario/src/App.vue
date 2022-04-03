@@ -4,11 +4,14 @@
       <router-link to="/">to A page</router-link>
       |
       <router-link to="/about">to B page</router-link>
+      |
+      <router-link to="/virtual-list">虚拟长列表</router-link>
     </nav>
     <!-- 需要缓存的视图 -->
-    <keep-alive>
+    <!-- <keep-alive>
       <router-view />
-    </keep-alive>
+    </keep-alive> -->
+    <router-view />
   </div>
 </template>
 
