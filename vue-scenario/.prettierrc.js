@@ -18,4 +18,19 @@ module.exports = {
   endOfLine: 'lf', //结束行形式
   embeddedLanguageFormatting: 'auto', //对引用代码进行格式化
   insertSpaceBeforeFunctionParenthesis: false,
+  // 解析HTML
+  overrides: [
+    {
+      files: '*.html',
+      options: {
+        parser: 'html',
+      },
+    },
+    {
+      files: '*.vue',
+      options: {
+        parser: 'vue',
+      },
+    },
+  ],
 }
