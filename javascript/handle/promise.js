@@ -144,7 +144,7 @@ class Promise {
     return promise2;
   }
 
-  // Promise.all 静态方法
+  // Promise.all 静态方法, 当所有promise状态都是fulfilled才成功
   static all(array) {
     let result = [];
     let index = 0;
