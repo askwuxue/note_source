@@ -1,9 +1,10 @@
 // 循环引用的对象（对象之间相互引用，形成无限循环）执行此方法，会抛出错误。
-// 布尔值、数字、字符串的包装对象在序列化过程中会自动转换成对应的原始值。
-// undefined、function、symbol，在序列化过程中会被忽略（出现在非数组对象的属性值中时）或者被转换成 null（出现在数组中时）。
-// function、undefined 被单独转换时，会返回 undefined，如JSON.stringify(function(){}) or JSON.stringify(undefined)。这就是为什么对象中有这些类型的属性，不能使用JSON.parse(JSON.stringify())来进行深拷贝。
+// 布尔值、数字、字符串等包装对象在序列化过程中会自动转换成对应的原始值。
+// function、undefined、symbol 被单独转换时，会返回 undefined，如JSON.stringify(function(){}) or JSON.stringify(undefined)。这就是为什么对象中有这些类型的属性，不能使用JSON.parse(JSON.stringify())来进行深拷贝。
 // Date 日期调用了 toJSON() 将其转换为了 string 字符串（同Date.toISOString()），因此会被当做字符串处理。
 // NaN 和 Infinity 格式的数值及 null 都会被当做 null。
+// undefined、function、symbol，出现在非数组对象的属性值中时， 在序列化过程中会被忽略。
+// undefined、function、symbol，出现在数组中时，被转换成 null
 // 其他类型的对象，包括 Map/Set/WeakMap/WeakSet，仅会序列化可枚举的属性。
 
 const getType = data => {
@@ -71,7 +72,7 @@ function jsonStringify(data) {
       // 对象key如果是symbol对象，忽略
       if (keyType !== "symbol") {
         let valueType = getType(data[item]);
-        // undefined、function、symbol，在序列化过程中会被忽略（出现在非数组对象的属性值中时）
+        // undefined、function、symbol，出现在非数组对象的属性值中时, 在序列化过程中会被忽略
         if (valueType !== undefined && valueType !== "function" && valueType !== "symbol") {
           if (result === "") {
             result = `"${item}":${jsonStringify(data[item])}`;
@@ -87,7 +88,7 @@ function jsonStringify(data) {
 
 // TETS
 const sym = Symbol("window");
-var obj = {
+const obj = {
   str: "string",
   num: 5,
   bol: true,
@@ -102,7 +103,15 @@ var obj = {
     },
     Symbol("sym"),
   ],
+  func() {
+    console.log("fun");
+  },
   [Symbol()]: "sdf",
+  obj: {
+    func1() {
+      console.log("fun1");
+    },
+  },
 };
 
 const str = jsonStringify(obj);

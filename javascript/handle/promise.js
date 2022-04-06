@@ -3,14 +3,14 @@ const FULFILLED = "fulfilled";
 const REJECTED = "rejected";
 
 const resolvePromise = (promise2, result, resolve, reject) => {
-  // 自己等待自己完成是错误的实现，用一个类型错误，结束掉 promise  Promise/A+ 2.3.1
+  // 如果promise.then返回了当前的Promise，发生了循环引用，错误行为  Promise/A+ 2.3.1
   if (promise2 === result) {
     let reason = new TypeError("Chaining cycle detected for promise #<Promise>");
     return reject(reason);
   }
   // Promise/A+ 2.3.3.3.3 只能调用一次
   let called;
-  // 后续的条件要严格判断 保证代码能和别的库一起使用
+  // 如果Promise.then() 中返回的是promise对象
   if ((typeof result === "object" && result != null) || typeof result === "function") {
     try {
       // 为了判断 resolve 过的就不用再 reject 了（比如 reject 和 resolve 同时调用的时候）  Promise/A+ 2.3.3.1
@@ -250,17 +250,17 @@ Promise.any = function (promiseArr) {
   });
 };
 
-// TEST
-const p1 = new Promise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("hello");
-  }, 1000);
-}).then(result => result);
+// // TEST
+// const p1 = new Promise((resolve, reject) => {
+//   setTimeout(() => {
+//     resolve("hello");
+//   }, 1000);
+// }).then(result => result);
 
-const p2 = new Promise((resolve, reject) => {
-  // throw new Error("报错了");
-  reject("报错了");
-}).then(result => result);
+// const p2 = new Promise((resolve, reject) => {
+//   // throw new Error("报错了");
+//   reject("报错了");
+// }).then(result => result);
 
 // Promise.all([p1, p2]).then(
 //   result => console.log(result),
@@ -268,21 +268,22 @@ const p2 = new Promise((resolve, reject) => {
 // );
 // .catch(e => console.log(e));
 
-const p = Promise.race([p1, p2]);
-console.log(
-  "p: ",
-  p.then(
-    val => {
-      console.log("val: ", val);
-    },
-    e => {
-      console.log("e: ", e);
-    }
-  )
-);
+// const p = Promise.race([p1, p2]);
+// console.log(
+//   "p: ",
+//   p.then(
+//     val => {
+//       console.log("val: ", val);
+//     },
+//     e => {
+//       console.log("e: ", e);
+//     }
+//   )
+// );
 
 // promise.js
-// 这里是上面写的 Promise 全部代码
+// 终端测试命令 promises-aplus-tests promise.js
+
 Promise.defer = Promise.deferred = function () {
   let dfd = {};
   dfd.promise = new Promise((resolve, reject) => {
