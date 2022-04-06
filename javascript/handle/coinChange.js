@@ -1,7 +1,10 @@
+// 硬币找零
 const coinChange = function (coins, amount) {
   let max = amount + 1;
+  // dp[i]表示当前金额需要的硬币数
   const dp = new Array(amount + 1).fill(max);
   dp[0] = 0;
+  // 如果当前的硬币金额小于金额，更新当前金额需要的最小硬币数
   for (let i = 1; i <= amount; ++i) {
     for (let j = 0; j < coins.length; ++j) {
       if (coins[j] <= i) {
