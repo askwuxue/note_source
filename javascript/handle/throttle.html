@@ -21,7 +21,7 @@
         let previous = 0;
 
         return function () {
-          let now = +new Date();
+          let now = new Date();
           _this = this;
           args = arguments;
           if (now - previous >= wait) {

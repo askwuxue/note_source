@@ -12,10 +12,19 @@ const jsonp = ({ url, params, callbackName }) => {
   return new Promise((resolve, reject) => {
     const scriptEle = document.createElement("script");
     scriptEle.src = generateUrl();
+    debugger;
     document.body.appendChild(scriptEle);
-    window[callbackName] = data => {
-      resolve(data);
+    try {
+      window[callbackName] = data => {
+        resolve(data);
+        document.removeChild(scriptEle);
+      };
+    } catch (error) {
       document.removeChild(scriptEle);
-    };
+      reject(error);
+    }
   });
 };
+
+// TEST
+const res = jsonp({ url: "http://www.baidu.com", params: { name: "wuxue" }, callbackName: "fun" });

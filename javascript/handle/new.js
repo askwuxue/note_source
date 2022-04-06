@@ -4,7 +4,7 @@ const _new = (constructor, ...args) => {
   return typeof result === "object" && result !== null ? result : obj;
 };
 
-// TODO 不要使用箭头函数，thi会丢失
+// TODO 不要使用箭头函数，this会丢失
 function constructor(name, age) {
   this.name = name;
   this.age = age;
