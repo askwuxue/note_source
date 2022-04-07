@@ -26,7 +26,9 @@
             </div>
             <div class="product__info">
               <div class="product__info__top">
-                <div class="product__info__top__title">商品信息</div>
+                <div class="product__info__top__title">
+                  商品信息-----{{ item.id }}
+                </div>
                 <div class="product__info__top__tag">规格：一件/500g</div>
               </div>
               <div class="product__info__bottom">
@@ -53,6 +55,7 @@ export default {
   name: 'VirtualList',
 
   data: () => ({
+    id: 0,
     /** @name 页面容器高度 */
     SCROLL_VIEW_HEIGHT: 500,
 
@@ -64,7 +67,6 @@ export default {
 
     // 初始数量
     sourceData: new Array(5000).fill({}),
-
     showRange: {
       start: 0,
       end: 10,
@@ -85,12 +87,13 @@ export default {
         .map((el, index) => ({
           data: el,
           index,
+          id: this.id++,
         }))
     },
   },
   created() {
-    console.log('this.currentViewList(): ', this.currentViewList)
-    console.log('scrollViewHeight: ', this.scrollViewHeight)
+    // console.log('this.currentViewList(): ', this.currentViewList)
+    // console.log('scrollViewHeight: ', this.scrollViewHeight)
   },
   mounted() {
     // this.handleScroll()
@@ -110,7 +113,7 @@ export default {
       // scrollDivRef.addEventListener('scroll', this.scrollCallback, true)
       // 已经移除可视区的在上部的item有多少个
       const offset = Math.floor(event.target.scrollTop / this.ITEM_HEIGHT)
-      console.log('offset: ', offset)
+      // console.log('offset: ', offset)
       // console.log('event: ', event.target.scrollTop)
       // 可视区的高度
       const viewHeight = event.target?.clientHeight
@@ -118,12 +121,12 @@ export default {
       const viewItemSize = Math.ceil(viewHeight / this.ITEM_HEIGHT) + 1
       this.showRange.start =
         offset - this.PRE_LOAD_COUNT > 0 ? offset - this.PRE_LOAD_COUNT : 0
-      console.log('this.showRange.start: ', this.showRange.start)
+      // console.log('this.showRange.start: ', this.showRange.start)
       this.showRange.end = viewItemSize + offset + this.PRE_LOAD_COUNT
-      console.log('this.showRange.end: ', this.showRange.end)
+      // console.log('this.showRange.end: ', this.showRange.end)
       // this.currentViewList()
-      console.log('this.currentViewList(): ', this.currentViewList)
-      console.log('scrollViewOffset: ', this.scrollViewOffset)
+      // console.log('this.currentViewList(): ', this.currentViewList)
+      // console.log('scrollViewOffset: ', this.scrollViewOffset)
 
       // console.log('viewItemSize: ', viewItemSize)
       // console.log('clientHeight: ', event.target.clientHeight)
