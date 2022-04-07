@@ -176,6 +176,7 @@ class Promise {
   }
 }
 
+// 包装成一个promise对象后返回，状态一直都是fulfilled
 Promise.resolve = function (value) {
   // 如果是 Promise，则直接输出它
   if (value instanceof Promise) {
@@ -184,6 +185,7 @@ Promise.resolve = function (value) {
   return new Promise(resolve => resolve(value));
 };
 
+// 只要有一个状态繁盛变化，就返回结果
 Promise.race = function (promiseArr) {
   return new Promise((resolve, reject) => {
     promiseArr.forEach(p => {
@@ -203,7 +205,7 @@ Promise.race = function (promiseArr) {
 Promise.allSettled = function (promiseArr) {
   let result = [];
   return new Promise((resolve, reject) => {
-    promiseArr.forEach((p, index) => {
+    promiseArr.forEach(p => {
       Promise.resolve(p).then(
         val => {
           result.push({
@@ -233,7 +235,7 @@ Promise.any = function (promiseArr) {
   let index = 0;
   return new Promise((resolve, reject) => {
     if (promiseArr.length === 0) return;
-    promiseArr.forEach((p, i) => {
+    promiseArr.forEach(p => {
       Promise.resolve(p).then(
         val => {
           resolve(val);
