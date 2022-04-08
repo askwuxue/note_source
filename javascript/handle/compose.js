@@ -19,7 +19,6 @@ function compose(...fn) {
   if (fn.length === 1) {
     return fn[0];
   }
-  debugger;
   return fn.reduce((pre, cur) =>
     // 对每一个函数的操作
     (...args) => {
