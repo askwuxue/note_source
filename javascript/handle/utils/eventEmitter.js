@@ -25,7 +25,7 @@ class EventEmitter {
       }
     }
   }
-  once(name) {
+  once(name, ...args) {
     if (this.cache[name]) {
       // 创建副本，防止在回调函数中进行注册，造成堆栈溢出
       let tasks = this.cache[name].slice();
