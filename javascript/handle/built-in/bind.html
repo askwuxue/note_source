@@ -11,8 +11,8 @@
       Function.prototype.bind2 = function (context, ...args) {
         const self = this;
         const fbound = function () {
-          // 判断是谁调用bind后的函数，如果是直接调用，则修正为bind的第一个参数
-          // 如果是new 的方式调用，则调用的对象为fn.bind()中的fn
+          // 1. 判断是谁调用bind后的函数，如果是直接调用，默认this指向window，则修正为bind的第一个参数
+          // 2. 如果是new 的方式调用，则调用的对象为fn.bind()中的fn，函数内部this指向实例
           self.apply(this instanceof self ? this : context, [...args, ...arguments]);
         };
         // 修正bind后的函数的原型

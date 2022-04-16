@@ -23,16 +23,3 @@ function mySetInterval(fn, delay) {
 
 let startTime = new Date().getTime();
 let count = 0;
-//耗时任务
-// setInterval(function () {
-//   // let i = 0;
-//   // while (i++ < 1000000000);
-// }, 0);
-// setInterval(function () {
-//   count++;
-//   console.log("count: ", count);
-//   let i = 0;
-//   while (i++ < 10000000000);
-// }, 1000);
-// let i = 0;
-// while (i++ < 10000000000);
