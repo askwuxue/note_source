@@ -1,7 +1,9 @@
+// 纯对象
 const isObject = target => {
   return (typeof target === "object" && typeof target !== "null") || typeof target === "function";
 };
 
+// 获取类型
 const getType = target => {
   return Object.prototype.toString.call(target).slice(8, -1).toLowerCase();
 };

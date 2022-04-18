@@ -1,4 +1,4 @@
-Object.create2 = function (proto, propertyObject = undefined) {
+Object.create2 = function (proto, propertyObject = {}) {
   if (typeof proto !== "object" && typeof proto !== "function") {
     throw new TypeError("Object prototype may only be an Object or null.");
   }
