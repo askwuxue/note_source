@@ -185,7 +185,7 @@ Promise.resolve = function (value) {
   return new Promise(resolve => resolve(value));
 };
 
-// 只要有一个状态繁盛变化，就返回结果
+// 只要有一个状态发生变化，就返回结果
 Promise.race = function (promiseArr) {
   return new Promise((resolve, reject) => {
     promiseArr.forEach(p => {
