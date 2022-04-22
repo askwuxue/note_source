@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="app">
+      <custom-input v-model="msg"></custom-input>
+      <p>{{msg}}</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script>
+      Vue.component('custom-input', {
+        // 自定义prop和event
+        model: {
+          prop: 'name',
+          event: 'getName',
+        },
+        props: ['name'],
+        template: `
+        <input
+          :value="name"
+          @input="$emit('getName', $event.target.value)"
+        >
+      `,
+      })
+      // 点击按钮，显示input输入框并且显示焦点
+      const vm = new Vue({
+        el: '#app',
+        data() {
+          return {
+            msg: 'hello',
+          }
+        },
+      })
+    </script>
+  </body>
+</html>
